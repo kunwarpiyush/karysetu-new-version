@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= pageTitle %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Brand config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#4f46e5',
+            accent: '#22c55e'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-slate-100 text-gray-800">
+
+  <!-- 🔹 NAVBAR (PARTIAL INCLUDE) -->
+  <%- include('partials/header') %>
+
+  <h1>Contact Page</h1>
+</body>
+</html>

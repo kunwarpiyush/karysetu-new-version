@@ -1,0 +1,96 @@
+<header class="sticky top-0 z-50">
+  <nav class="bg-white/80 backdrop-blur-xl border-b border-orange-100 px-6 py-3 flex items-center shadow-sm">
+
+    <!-- BRAND -->
+    <div class="flex items-center gap-2 text-2xl font-extrabold tracking-wide">
+      <span class="text-orange-500">🔗</span>
+      <span class="text-orange-500">
+        कार्य<span class="text-gray-700">सेतु</span>
+      </span>
+    </div>
+
+    <!-- MENU -->
+    <ul class="ml-auto flex items-center gap-6 text-sm font-medium">
+
+      <%
+        const base = `group relative px-1 pb-1 text-gray-600
+        hover:text-orange-500 transition-colors duration-300`;
+
+        const activeText = `text-orange-600 font-semibold`;
+
+        const line = `absolute left-0 -bottom-1 h-[2.5px] w-full
+        bg-orange-500 rounded-full transform scale-x-0 origin-center
+        transition-transform duration-500 ease-in-out
+        group-hover:scale-x-100`;
+
+        const activeLine = `scale-x-100`;
+      %>
+
+      <!-- HOME (sabko dikhe) -->
+      <li>
+        <a href="/" class="<%= `${base} ${path === '/' ? activeText : ''}` %>">
+          🏠 Home
+          <span class="<%= `${line} ${path === '/' ? activeLine : ''}` %>"></span>
+        </a>
+      </li>
+
+      <% if (!isLoggedIn) { %>
+
+        <!-- LOGIN (login se pehle) -->
+        <li>
+          <a href="/login" class="<%= `${base} ${path === '/login' ? activeText : ''}` %>">
+            🔐 Login
+            <span class="<%= `${line} ${path === '/login' ? activeLine : ''}` %>"></span>
+          </a>
+        </li>
+
+        <!-- SIGNUP (login se pehle) -->
+        <li>
+          <a href="/signup" class="<%= `${base} ${path === '/signup' ? activeText : ''}` %>">
+            📝 Sign Up
+            <span class="<%= `${line} ${path === '/signup' ? activeLine : ''}` %>"></span>
+          </a>
+        </li>
+
+      <% } else { %>
+
+        <!-- PROFILE (login ke baad) -->
+        <li>
+          <a href="/profile" class="<%= `${base} ${path === '/profile' ? activeText : ''}` %>">
+            ℹ️ Profile
+            <span class="<%= `${line} ${path === '/profile' ? activeLine : ''}` %>"></span>
+          </a>
+        </li>
+
+        <!-- JOBS (sirf WORKER ke liye) -->
+        <% if (role === 'worker') { %>
+          <li>
+            <a href="/jobs" class="<%= `${base} ${path === '/jobs' ? activeText : ''}` %>">
+              💼 Jobs
+              <span class="<%= `${line} ${path === '/jobs' ? activeLine : ''}` %>"></span>
+            </a>
+          </li>
+        <% } %>
+
+        <!-- POST JOB (sirf EMPLOYER ke liye) -->
+        <% if (role === 'employer') { %>
+          <li>
+            <a href="/post-job" class="<%= `${base} ${path === '/post-job' ? activeText : ''}` %>">
+              ➕ post-job
+              <span class="<%= `${line} ${path === '/post-job' ? activeLine : ''}` %>"></span>
+            </a>
+          </li>
+        <% } %>
+
+        <!-- LOGOUT (login ke baad) -->
+        <li>
+          <a href="/logout" class="text-red-500 font-semibold hover:text-red-600">
+            🚪 Logout
+          </a>
+        </li>
+
+      <% } %>
+
+    </ul>
+  </nav>
+</header>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= pageTitle %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- THEME CONFIG -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#f97316',
+            soft: '#f8fafc',
+            glass: 'rgba(255,255,255,0.75)'
+          },
+          boxShadow: {
+            soft: '0 10px 30px rgba(0,0,0,0.08)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gradient-to-br from-orange-50 via-white to-orange-100 text-gray-800 min-h-screen">
+
+<!-- HEADER -->
+<%- include('partials/header') %>
+
+<!-- HERO -->
+<section class="max-w-7xl mx-auto px-4 pt-16 pb-24 grid lg:grid-cols-2 gap-14 items-center">
+
+  <!-- LEFT -->
+  <div>
+    <span class="inline-flex items-center gap-2 bg-orange-100 text-primary text-xs font-semibold px-4 py-1 rounded-full mb-6">
+      🔥 भारत का भरोसेमंद रोज़गार प्लेटफॉर्म
+    </span>
+
+    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
+      सही काम <br>
+      <span class="text-primary">सही समय पर</span>
+    </h1>
+
+    <p class="mt-6 text-gray-600 text-lg max-w-xl">
+      मज़दूर • ड्राइवर • हेल्पर • फैक्ट्री • होटल • डिलीवरी  
+      — सब एक ही जगह
+    </p>
+
+    <div class="mt-10 flex flex-wrap gap-4">
+      <a href="#jobs"
+         class="bg-primary text-white px-8 py-4 rounded-2xl font-semibold shadow-soft hover:scale-105 transition">
+        🔍 काम खोजें
+      </a>
+
+      <a href="/post-job"
+         class="bg-white/80 backdrop-blur border border-orange-200 text-primary px-8 py-4 rounded-2xl font-semibold shadow hover:bg-orange-50 transition">
+        ➕ काम दें
+      </a>
+    </div>
+  </div>
+
+  <!-- RIGHT STATS -->
+  <div class="hidden lg:grid grid-cols-2 gap-6">
+    <div class="bg-glass backdrop-blur rounded-3xl shadow-soft p-6 text-center">
+      <div class="text-4xl mb-2">👷</div>
+      <h3 class="font-bold text-xl"><%= jobs.length %>+</h3>
+      <p class="text-sm text-gray-500">Active Jobs</p>
+    </div>
+
+    <div class="bg-glass backdrop-blur rounded-3xl shadow-soft p-6 text-center">
+      <div class="text-4xl mb-2">🏭</div>
+      <h3 class="font-bold text-xl">500+</h3>
+      <p class="text-sm text-gray-500">Employers</p>
+    </div>
+
+    <div class="bg-glass backdrop-blur rounded-3xl shadow-soft p-6 text-center">
+      <div class="text-4xl mb-2">⚡</div>
+      <h3 class="font-bold text-xl">Fast</h3>
+      <p class="text-sm text-gray-500">Hiring</p>
+    </div>
+
+    <div class="bg-glass backdrop-blur rounded-3xl shadow-soft p-6 text-center">
+      <div class="text-4xl mb-2">📍</div>
+      <h3 class="font-bold text-xl">Local</h3>
+      <p class="text-sm text-gray-500">Jobs</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- JOBS -->
+<section id="jobs" class="max-w-7xl mx-auto px-4 pb-28">
+
+  <div class="flex justify-between items-center mb-12">
+    <h2 class="text-3xl font-extrabold">नए काम</h2>
+    <span class="text-sm text-gray-500">
+      कुल <%= jobs.length %> उपलब्ध
+    </span>
+  </div>
+
+  <% if (jobs.length === 0) { %>
+    <div class="bg-white rounded-3xl p-12 shadow-soft text-center text-gray-500">
+      🚫 अभी कोई काम उपलब्ध नहीं है
+    </div>
+  <% } %>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-10">
+
+    <% jobs.forEach(job => { %>
+      <div class="bg-white rounded-[2.2rem] shadow-soft hover:shadow-2xl transition flex flex-col min-h-[380px]">
+
+        <!-- HEADER -->
+        <div class="px-8 pt-8 pb-6 border-b">
+          <h3 class="font-extrabold text-xl hover:text-primary transition">
+            <%= job.title %>
+          </h3>
+
+          <p class="text-sm text-gray-500 mt-2">
+            📍 <%= job.location %>
+            <% if (job.jobTime) { %> • ⏱ <%= job.jobTime %> <% } %>
+          </p>
+        </div>
+
+        <!-- BODY -->
+        <div class="px-8 py-6 flex-1">
+          <% if (job.salary) { %>
+            <div class="inline-flex bg-orange-100 text-primary text-sm font-semibold px-4 py-2 rounded-full mb-4">
+              💰 ₹ <%= job.salary %>
+            </div>
+          <% } %>
+
+          <% if (job.description) { %>
+            <p class="text-gray-600 line-clamp-4">
+              <%= job.description %>
+            </p>
+          <% } %>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="px-8 pb-8">
+          <div class="flex justify-between text-sm text-gray-500 mb-5">
+            <% if (job.employer?.Name) { %>
+              <span>👤 <%= job.employer.Name %></span>
+            <% } %>
+            <% if (job.contact) { %>
+              <span>📞 <%= job.contact %></span>
+            <% } %>
+          </div>
+
+          <div class="flex gap-4">
+
+            <!-- DETAILS -->
+            <a href="/jobs/<%= job._id %>"
+               class="flex-1 text-center border border-gray-300 py-3.5 rounded-2xl font-semibold hover:bg-gray-100">
+              Details
+            </a>
+
+            <!-- APPLY LOGIC -->
+            <% if (isLoggedIn && role === 'worker') { %>
+
+              <% if (job.applicants && job.applicants.some(a => a.toString() === user._id.toString())) { %>
+
+                <!-- ALREADY APPLIED -->
+                <button disabled
+                  class="flex-1 bg-green-100 text-green-700 py-3.5 rounded-2xl
+                         font-semibold cursor-not-allowed">
+                  ✔ Applied
+                </button>
+
+              <% } else { %>
+
+                <!-- APPLY -->
+                <form action="/jobs/<%= job._id %>/apply" method="POST" class="flex-1">
+                  <button type="submit"
+                    class="w-full bg-primary text-white py-3.5 rounded-2xl
+                           font-semibold hover:bg-orange-600 transition">
+                    Apply
+                  </button>
+                </form>
+
+              <% } %>
+
+            <% } %>
+            <!-- Guest & Employer → Apply hidden -->
+
+          </div>
+        </div>
+
+      </div>
+    <% }) %>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-white border-t border-orange-100 py-12">
+  <div class="text-center">
+    <h3 class="text-primary font-extrabold text-xl">कार्यसेतु</h3>
+    <p class="mt-2 text-gray-500">भरोसेमंद • तेज़ • आसान</p>
+    <p class="text-xs text-gray-400 mt-4">© 2026 All Rights Reserved</p>
+  </div>
+</footer>
+
+</body>
+</html>

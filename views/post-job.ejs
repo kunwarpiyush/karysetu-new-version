@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>
+    <%= pageTitle %>
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#f97316',
+            base: '#ffffff',
+            soft: '#f8fafc',
+            accent: '#64748b'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-soft text-gray-800 min-h-screen">
+
+  <%- include('partials/header') %>
+
+    <section class="max-w-5xl mx-auto px-4 pt-10 pb-6 text-center">
+      <h1 class="text-3xl md:text-4xl font-extrabold">
+        <span class="text-primary">काम</span> पोस्ट करें
+      </h1>
+      <p class="text-gray-500 mt-3">2 मिनट में काम पोस्ट करें और सही आदमी पाएं</p>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 pb-16">
+      <form action="/post-job" method="POST" class="bg-white rounded-3xl shadow-xl p-6 md:p-10 space-y-8">
+
+        <div>
+          <h3 class="text-lg font-bold mb-4 flex items-center gap-2">🧰 काम की जानकारी</h3>
+
+          <div class="mb-5">
+            <label class="block font-medium mb-1">काम का नाम</label>
+            <input type="text" name="title" placeholder="जैसे: ड्राइवर, होटल हेल्पर"
+              class="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-primary" required />
+            <p class="text-xs text-gray-400 mt-1">जिस काम के लिए आदमी चाहिए</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="block font-medium mb-1">काम का समय</label>
+              <select name="jobTime" class="w-full border border-gray-200 rounded-2xl px-4 py-3 text-gray-600" required>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Shift">Shift</option>
+                <option value="Daily">Daily</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-medium mb-1">वेतन (यदि है)</label>
+              <input type="text" name="salary" placeholder="जैसे: 10000/month या बातचीत के अनुसार"
+                class="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-primary" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold mb-4 flex items-center gap-2">📍 जगह की जानकारी</h3>
+          <input type="text" name="location" placeholder="शहर / इलाका"
+            class="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-primary" required />
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold mb-4 flex items-center gap-2">📝 काम का विवरण</h3>
+          <textarea name="description" rows="4" placeholder="काम का समय, अनुभव, कोई जरूरी बात"
+            class="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-primary"></textarea>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold mb-4 flex items-center gap-2">📞 संपर्क जानकारी</h3>
+          <input type="tel" name="contact" placeholder="मोबाइल नंबर"
+            class="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-primary" required />
+          <p class="text-xs text-gray-400 mt-2 flex items-center gap-1">🔒 आपका नंबर सुरक्षित रहेगा</p>
+        </div>
+
+        <div class="pt-6">
+          <button type="submit"
+            class="w-full bg-primary text-white py-4 rounded-2xl text-lg font-semibold shadow-md hover:bg-orange-600 hover:shadow-lg transition">➕
+            काम पोस्ट करें</button>
+        </div>
+
+      </form>
+    </section>
+
+    <footer class="bg-white border-t border-orange-100 py-10">
+      <div class="text-center">
+        <h3 class="text-primary font-extrabold text-lg">ROJGAR APP</h3>
+        <p class="text-gray-500 mt-2">भरोसेमंद • तेज़ • आसान</p>
+        <p class="text-xs text-gray-400 mt-3">© 2026 All Rights Reserved</p>
+      </div>
+    </footer>
+
+</body>
+
+</html>

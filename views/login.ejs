@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= pageTitle %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Orange–White Theme -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#f97316',
+            soft: '#f8fafc',
+            accent: '#64748b'
+          },
+          boxShadow: {
+            card: '0 20px 45px rgba(0,0,0,0.12)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gradient-to-br from-orange-50 via-white to-orange-100 min-h-screen text-gray-800">
+
+  <!-- NAVBAR -->
+  <%- include('partials/header') %>
+
+  <!-- PAGE WRAPPER -->
+  <main class="flex items-center justify-center px-4 py-20">
+
+    <!-- LOGIN CARD -->
+    <div class="w-full max-w-md bg-white rounded-[2.5rem] shadow-card p-10">
+
+      <!-- HEADER -->
+      <div class="text-center mb-8">
+        <div class="w-20 h-20 bg-orange-100 rounded-full mx-auto flex items-center justify-center text-4xl shadow">
+          🔐
+        </div>
+
+        <h1 class="text-3xl font-extrabold mt-5">
+          <span class="text-primary">लॉगिन</span> करें
+        </h1>
+
+        <p class="text-gray-500 mt-2 text-sm">
+          अपने खाते में सुरक्षित रूप से प्रवेश करें
+        </p>
+      </div>
+
+      <!-- ❌ ERROR MESSAGE -->
+      <% if (typeof errorMessage !== 'undefined') { %>
+        <div class="bg-red-100 border border-red-200 text-red-700 px-4 py-3 rounded-2xl text-sm mb-6 text-center">
+          <%= errorMessage %>
+        </div>
+      <% } %>
+
+      <!-- FORM -->
+      <form action="/login" method="POST" class="space-y-6">
+
+        <!-- Mobile -->
+        <div>
+          <label class="block font-medium mb-1 text-sm">मोबाइल नंबर</label>
+          <input
+            type="tel"
+            name="Mobile"
+            placeholder="10 अंकों का मोबाइल नंबर"
+            class="w-full border border-gray-200 rounded-2xl px-4 py-3
+                   focus:outline-none focus:ring-2 focus:ring-orange-200"
+            required
+          />
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block font-medium mb-1 text-sm">पासवर्ड</label>
+          <input
+            type="password"
+            name="Password"
+            placeholder="अपना पासवर्ड डालें"
+            class="w-full border border-gray-200 rounded-2xl px-4 py-3
+                   focus:outline-none focus:ring-2 focus:ring-orange-200"
+            required
+          />
+        </div>
+
+        <!-- OPTIONS -->
+        <div class="flex items-center justify-between text-sm">
+          <label class="flex items-center gap-2 text-gray-600">
+            <input type="checkbox" class="accent-primary">
+            मुझे याद रखें
+          </label>
+          <a href="/forgot-password" class="text-primary font-medium hover:underline">
+            पासवर्ड भूल गए?
+          </a>
+        </div>
+
+        <!-- SUBMIT -->
+        <button
+          type="submit"
+          class="w-full bg-primary text-white py-4 rounded-2xl text-lg
+                 font-bold shadow hover:bg-orange-600 transition">
+          लॉगिन करें
+        </button>
+
+      </form>
+
+      <!-- TRUST -->
+      <p class="text-xs text-gray-400 text-center mt-5 flex items-center justify-center gap-1">
+        🔒 आपकी जानकारी पूरी तरह सुरक्षित है
+      </p>
+
+      <!-- SIGNUP LINK -->
+      <p class="text-center text-sm text-gray-600 mt-8">
+        नया खाता बनाना है?
+        <a href="/signup" class="text-primary font-semibold hover:underline">
+          साइन अप करें
+        </a>
+      </p>
+
+    </div>
+  </main>
+
+</body>
+</html>

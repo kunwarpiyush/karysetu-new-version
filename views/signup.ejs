@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>
+    <%= pageTitle %>
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Orange–White Theme -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#f97316',
+            soft: '#f8fafc',
+            accent: '#64748b'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-soft text-gray-800 min-h-screen">
+
+  <!-- NAVBAR (NORMAL FLOW) -->
+  <%- include('partials/header') %>
+
+    <!-- PAGE WRAPPER -->
+    <main class="flex items-center justify-center px-4 py-16">
+
+      <!-- SIGNUP CARD -->
+      <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8">
+
+        <!-- HEADER -->
+        <div class="text-center mb-8">
+          <div class="w-20 h-20 bg-orange-100 rounded-full mx-auto flex items-center justify-center text-4xl">
+            👤
+          </div>
+          <h1 class="text-3xl font-extrabold mt-4">
+            <span class="text-primary">नया</span> खाता बनाएं
+          </h1>
+          <p class="text-gray-500 mt-2">
+            1 मिनट में साइन अप करें
+          </p>
+        </div>
+
+        <!-- FORM -->
+        <form action="/signup" method="POST" class="space-y-5">
+
+          <!-- Name -->
+          <div>
+            <label class="block font-medium mb-1">पूरा नाम</label>
+            <input type="text" placeholder="आपका नाम" name="Name" id="Name" placeholder="John"
+              value="<%= oldInput.Name ? oldInput.Name:'' %>"
+              class="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-primary" required />
+          </div>
+
+          <!-- Mobile -->
+          <div>
+            <label class="block font-medium mb-1">मोबाइल नंबर</label>
+            <input type="tel" placeholder="10 अंकों का नंबर" name="Mobile" id="Mobile" placeholder="9876543210"
+              value="<%= oldInput.Mobile ? oldInput.Mobile:'' %>"
+              class="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-primary" required />
+          </div>
+
+          <!-- Aadhaar Number -->
+<div>
+  <label class="block font-medium mb-1">आधार कार्ड नंबर</label>
+  <input
+    type="text"
+    name="Aadhar_cardNumber"
+    placeholder="12 अंकों का आधार नंबर"
+    maxlength="12"
+    value="<%= oldInput.Aadhar_cardNumber ? oldInput.Aadhar_cardNumber : '' %>"
+    class="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-primary"
+    required
+  />
+</div>
+
+
+          <!-- User Type -->
+          <div>
+            <label class="block font-medium mb-2">आप कौन हैं?</label>
+            <div class="grid grid-cols-2 gap-4">
+              <label class="flex items-center gap-2 border rounded-2xl px-4 py-3 cursor-pointer hover:border-primary">
+                <input type="radio" name="role" value="worker" class="accent-primary" <%=oldInput &&
+                  oldInput.role==='worker' ? 'checked' : '' %> required>
+                👷 काम करने वाला
+              </label>
+              <label class="flex items-center gap-2 border rounded-2xl px-4 py-3 cursor-pointer hover:border-primary">
+                <input type="radio" name="role" value="employer" class="accent-primary" <%=oldInput &&
+                  oldInput.role==='employer' ? 'checked' : '' %> required>
+                🏢 काम देने वाला
+              </label>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label class="block font-medium mb-1">पासवर्ड</label>
+            <input type="password" name="Password" id="Password" placeholder="कम से कम 6 अक्षर"
+              class="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-primary" required />
+          </div>
+
+          <!-- Submit -->
+          <button type="submit"
+            class="w-full bg-primary text-white py-4 rounded-2xl text-lg font-bold shadow-lg hover:bg-orange-600 transition">
+            साइन अप करें
+          </button>
+
+        </form>
+
+        <!-- TRUST -->
+        <p class="text-xs text-gray-400 text-center mt-4 flex items-center justify-center gap-1">
+          🔒 आपकी जानकारी सुरक्षित रहेगी
+        </p>
+
+        <!-- LOGIN LINK -->
+        <p class="text-center text-sm text-gray-600 mt-6">
+          पहले से खाता है?
+          <a href="/login" class="text-primary font-semibold hover:underline">
+            लॉगिन करें
+          </a>
+        </p>
+
+      </div>
+    </main>
+
+</body>
+
+</html>
