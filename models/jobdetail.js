@@ -14,7 +14,7 @@ const jobDetailSchema = new mongoose.Schema({
     required: true,
   },
 
-  // ✅ NEW: apply karne wale workers
+  //  NEW: apply karne wale workers
   applicants: [
     {
       type: mongoose.Schema.Types.ObjectId,

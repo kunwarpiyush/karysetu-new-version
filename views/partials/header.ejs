@@ -1,8 +1,16 @@
 <header class="sticky top-0 z-50">
-  <nav class="bg-white/80 backdrop-blur-xl border-b border-orange-100 px-6 py-3 flex items-center shadow-sm">
+  <nav
+    class="bg-white/90 backdrop-blur-xl border-b border-orange-100
+           px-4 md:px-6 py-3
+           flex flex-wrap items-center shadow-sm">
 
     <!-- BRAND -->
-    <div class="flex items-center gap-2 text-2xl font-extrabold tracking-wide">
+    <div
+      class="flex items-center gap-2
+             text-lg sm:text-xl md:text-2xl
+             font-extrabold tracking-wide
+             w-full md:w-auto
+             justify-start">
       <span class="text-orange-500">🔗</span>
       <span class="text-orange-500">
         कार्य<span class="text-gray-700">सेतु</span>
@@ -10,23 +18,34 @@
     </div>
 
     <!-- MENU -->
-    <ul class="ml-auto flex items-center gap-6 text-sm font-medium">
+    <ul
+      class="w-full md:w-auto
+             ml-0 md:ml-auto
+             mt-3 md:mt-0
+             flex flex-wrap items-center
+             gap-2 md:gap-6
+             text-xs sm:text-sm
+             font-medium">
 
       <%
-        const base = `group relative px-1 pb-1 text-gray-600
-        hover:text-orange-500 transition-colors duration-300`;
+        const base = `group relative
+        px-3 py-1.5 md:px-1 md:py-0
+        rounded-full md:rounded-none
+        text-gray-600 hover:text-orange-500
+        transition-all duration-300`;
 
-        const activeText = `text-orange-600 font-semibold`;
+        const activeText = `text-orange-600 font-semibold
+        bg-orange-50 md:bg-transparent`;
 
         const line = `absolute left-0 -bottom-1 h-[2.5px] w-full
         bg-orange-500 rounded-full transform scale-x-0 origin-center
         transition-transform duration-500 ease-in-out
-        group-hover:scale-x-100`;
+        group-hover:scale-x-100 hidden md:block`;
 
         const activeLine = `scale-x-100`;
       %>
 
-      <!-- HOME (sabko dikhe) -->
+      <!-- HOME -->
       <li>
         <a href="/" class="<%= `${base} ${path === '/' ? activeText : ''}` %>">
           🏠 Home
@@ -36,7 +55,6 @@
 
       <% if (!isLoggedIn) { %>
 
-        <!-- LOGIN (login se pehle) -->
         <li>
           <a href="/login" class="<%= `${base} ${path === '/login' ? activeText : ''}` %>">
             🔐 Login
@@ -44,7 +62,6 @@
           </a>
         </li>
 
-        <!-- SIGNUP (login se pehle) -->
         <li>
           <a href="/signup" class="<%= `${base} ${path === '/signup' ? activeText : ''}` %>">
             📝 Sign Up
@@ -54,7 +71,6 @@
 
       <% } else { %>
 
-        <!-- PROFILE (login ke baad) -->
         <li>
           <a href="/profile" class="<%= `${base} ${path === '/profile' ? activeText : ''}` %>">
             ℹ️ Profile
@@ -62,7 +78,6 @@
           </a>
         </li>
 
-        <!-- JOBS (sirf WORKER ke liye) -->
         <% if (role === 'worker') { %>
           <li>
             <a href="/jobs" class="<%= `${base} ${path === '/jobs' ? activeText : ''}` %>">
@@ -72,25 +87,26 @@
           </li>
         <% } %>
 
-        <!-- POST JOB (sirf EMPLOYER ke liye) -->
         <% if (role === 'employer') { %>
           <li>
             <a href="/post-job" class="<%= `${base} ${path === '/post-job' ? activeText : ''}` %>">
-              ➕ post-job
+              ➕ Post Job
               <span class="<%= `${line} ${path === '/post-job' ? activeLine : ''}` %>"></span>
             </a>
           </li>
         <% } %>
 
-        <!-- LOGOUT (login ke baad) -->
         <li>
-          <a href="/logout" class="text-red-500 font-semibold hover:text-red-600">
+          <a
+            href="/logout"
+            class="px-3 py-1.5 rounded-full
+                   text-red-500 font-semibold
+                   hover:bg-red-50 md:hover:bg-transparent">
             🚪 Logout
           </a>
         </li>
 
       <% } %>
-
     </ul>
   </nav>
 </header>

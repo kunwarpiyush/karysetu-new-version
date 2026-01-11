@@ -12,14 +12,14 @@
       theme: {
         extend: {
           colors: {
-            primary: '#f97316',   // ORANGE (42%)
+            primary: '#f97316',
             soft: '#fff7ed',
-            whitepure: '#ffffff',// WHITE (42%)
-            other: '#64748b'      // OTHER (16%)
+            whitepure: '#ffffff',
+            other: '#64748b'
           },
           boxShadow: {
             soft: '0 20px 45px rgba(0,0,0,0.08)',
-            glow: '0 20px 40px rgba(249,115,22,0.45)'
+            glow: '0 20px 40px rgba(249,115,22,0.35)'
           }
         }
       }
@@ -35,7 +35,6 @@
 
 <% if (!isLoggedIn) { %>
 
-  <!-- NOT LOGGED IN -->
   <div class="bg-whitepure rounded-[3rem] shadow-soft p-16 text-center">
     <h2 class="text-3xl font-extrabold text-primary mb-4">
       आप लॉगिन नहीं हैं
@@ -44,7 +43,7 @@
       प्रोफाइल देखने के लिए पहले लॉगिन करें
     </p>
     <a href="/login"
-       class="inline-block bg-primary text-white px-14 py-4 rounded-2xl font-bold shadow-glow hover:scale-105 transition">
+       class="inline-block bg-primary text-white px-14 py-4 rounded-2xl font-bold shadow-glow">
       लॉगिन करें
     </a>
   </div>
@@ -59,21 +58,18 @@
 %>
 
 <!-- ================= PROFILE HEADER ================= -->
-<div class="relative bg-whitepure rounded-[3.5rem] shadow-soft p-12 mb-20 border border-orange-100 overflow-hidden">
-
+<div class="relative bg-whitepure rounded-[3.5rem] shadow-soft p-14 mb-20 overflow-hidden">
   <div class="absolute -top-24 -right-24 w-72 h-72 bg-orange-200 rounded-full blur-3xl opacity-30"></div>
 
-  <div class="relative flex flex-col md:flex-row md:items-center gap-12">
+  <div class="relative flex flex-col md:flex-row gap-14 items-center">
 
-    <!-- Avatar -->
-    <div class="w-32 h-32 rounded-full bg-primary text-white
-                flex items-center justify-center text-6xl font-extrabold shadow-glow">
+    <div class="w-36 h-36 rounded-full bg-primary text-white flex items-center justify-center
+                text-6xl font-extrabold shadow-glow">
       <%= user.Name.charAt(0).toUpperCase() %>
     </div>
 
-    <!-- Info -->
-    <div class="flex-1">
-      <h2 class="text-4xl font-extrabold mb-3 text-gray-900">
+    <div class="flex-1 text-center md:text-left">
+      <h2 class="text-4xl font-extrabold mb-2">
         <%= user.Name %>
       </h2>
 
@@ -81,111 +77,173 @@
         <%= role === 'employer'
           ? 'bg-orange-100 text-primary'
           : 'bg-slate-100 text-slate-700' %>">
-        <%= role === 'employer'
-          ? '🏢 काम देने वाला'
-          : '👷 काम करने वाला' %>
+        <%= role === 'employer' ? '🏢 काम देने वाला' : '👷 काम करने वाला' %>
       </span>
 
-      <!-- Info cards -->
-      <div class="grid sm:grid-cols-2 gap-6">
-
+      <div class="grid sm:grid-cols-2 gap-6 max-w-xl mx-auto md:mx-0">
         <div class="bg-soft rounded-2xl p-6 border border-orange-100">
           <p class="text-xs text-other mb-1">📱 मोबाइल नंबर</p>
-          <p class="font-bold text-xl"><%= user.Mobile || 'उपलब्ध नहीं' %></p>
+          <p class="font-bold text-lg"><%= user.Mobile %></p>
         </div>
 
         <div class="bg-soft rounded-2xl p-6 border border-orange-100">
           <p class="text-xs text-other mb-1">🆔 आधार कार्ड</p>
-          <p class="font-bold tracking-widest text-lg"><%= maskedAadhar %></p>
+          <p class="font-bold tracking-widest"><%= maskedAadhar %></p>
         </div>
-
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ================= WORKER ACCEPTED MESSAGE ================= -->
-<% if (role === 'worker' && acceptedJobs && acceptedJobs.length > 0) { %>
+<!-- ================= WORKER VIEW ================= -->
+<% if (role === 'worker') { %>
 
-<div class="bg-green-50 border-l-8 border-green-600 rounded-[3rem] p-10 mb-16 shadow-soft">
+  <% if (acceptedJobs.length > 0) { %>
+  <div class="mb-14 bg-green-50 p-10 rounded-3xl border border-green-200">
+    <h3 class="text-2xl font-extrabold text-green-700 mb-6">
+      ✔ स्वीकार किए गए काम
+    </h3>
 
-  <h3 class="text-2xl font-extrabold text-green-700 mb-6">
-    ✔ आपका काम स्वीकार कर लिया गया
-  </h3>
+    <% acceptedJobs.forEach(job => { %>
+      <div class="bg-whitepure rounded-2xl p-6 mb-4 border border-green-100">
 
-  <% acceptedJobs.forEach(job => { %>
-    <div class="bg-whitepure rounded-2xl p-6 mb-4 border border-green-100">
-      <p class="text-lg font-bold"><%= job.title %></p>
-      <p class="text-sm text-other">📍 <%= job.location %></p>
-      <p class="text-green-700 mt-2 font-semibold">
-        बधाई हो! आपको इस काम के लिए चुना गया है।
-      </p>
-      <p class="text-xs text-gray-500 mt-1">
-        काम देने वाला: <%= job.employer?.Name || 'उपलब्ध नहीं' %>
-      </p>
-    </div>
-  <% }) %>
-</div>
+        <h4 class="text-xl font-bold mb-1"><%= job.title %></h4>
+        <p class="text-sm text-other mb-3">📍 <%= job.location %></p>
+
+        <div class="grid sm:grid-cols-2 gap-4 text-sm mb-4">
+          <p><strong>🕒 समय:</strong> <%= job.jobTime %></p>
+          <p><strong>💰 वेतन:</strong> <%= job.salary || 'निर्धारित नहीं' %></p>
+          <p class="sm:col-span-2"><strong>📝 विवरण:</strong> <%= job.description || 'उपलब्ध नहीं' %></p>
+          <p class="sm:col-span-2"><strong>📞 संपर्क:</strong> <%= job.contact %></p>
+        </div>
+
+        <p class="text-green-700 font-semibold text-sm">
+          काम देने वाला: <%= job.employer?.Name || 'उपलब्ध नहीं' %>
+        </p>
+
+      </div>
+    <% }) %>
+  </div>
+  <% } %>
+
+  <% if (rejectedJobs.length > 0) { %>
+  <div class="mb-14 bg-orange-50 p-10 rounded-3xl border border-orange-200">
+    <h3 class="text-2xl font-extrabold text-orange-600 mb-6">
+      ❌ अस्वीकार किए गए काम
+    </h3>
+
+    <% rejectedJobs.forEach(job => { %>
+      <div class="bg-whitepure rounded-2xl p-6 mb-4 border border-orange-100">
+
+        <h4 class="text-xl font-bold mb-1"><%= job.title %></h4>
+        <p class="text-sm text-other mb-3">📍 <%= job.location %></p>
+
+        <div class="grid sm:grid-cols-2 gap-4 text-sm mb-4">
+          <p><strong>🕒 समय:</strong> <%= job.jobTime %></p>
+          <p><strong>💰 वेतन:</strong> <%= job.salary || 'निर्धारित नहीं' %></p>
+          <p class="sm:col-span-2"><strong>📝 विवरण:</strong> <%= job.description || 'उपलब्ध नहीं' %></p>
+          <p class="sm:col-span-2"><strong>📞 संपर्क:</strong> <%= job.contact %></p>
+        </div>
+
+        <p class="text-red-600 font-semibold text-sm">
+          यह काम आपको नहीं दिया गया
+        </p>
+
+        <p class="text-xs text-gray-500 mt-1">
+          काम देने वाला: <%= job.employer?.Name || 'उपलब्ध नहीं' %>
+        </p>
+
+      </div>
+    <% }) %>
+  </div>
+  <% } %>
 
 <% } %>
 
-<!-- ================= WORKER REJECTED MESSAGE ================= -->
-<% if (role === 'worker' && rejectedJobs && rejectedJobs.length > 0) { %>
-
-<div class="bg-orange-50 border-l-8 border-primary rounded-[3rem] p-10 mb-20 shadow-soft">
-
-  <h3 class="text-2xl font-extrabold text-primary mb-6">
-    ❌ काम अस्वीकार किया गया
-  </h3>
-
-  <% rejectedJobs.forEach(job => { %>
-    <div class="bg-whitepure rounded-2xl p-6 mb-4 border border-orange-100">
-      <p class="text-lg font-bold"><%= job.title %></p>
-      <p class="text-sm text-other">📍 <%= job.location %></p>
-      <p class="text-red-600 mt-2 font-semibold">
-        यह काम आपको नहीं दिया गया है, आप दूसरा काम देख सकते हैं।
-      </p>
-      <p class="text-xs text-gray-500 mt-1">
-        काम देने वाला: <%= job.employer?.Name || 'उपलब्ध नहीं' %>
-      </p>
-    </div>
-  <% }) %>
-</div>
-
-<% } %>
-
-<!-- ================= EMPLOYER DASHBOARD ================= -->
+<!-- ================= EMPLOYER VIEW ================= -->
 <% if (role === 'employer') { %>
 
-<h3 class="text-3xl font-extrabold mb-10 text-gray-900">
+<h3 class="text-2xl font-extrabold mb-8">
   📋 आपके द्वारा डाले गए काम
 </h3>
 
-<div class="space-y-16">
-
 <% postedJobs.forEach(job => { %>
 
-  <div class="bg-whitepure rounded-[3rem] shadow-soft p-10 border border-orange-100">
+<div class="bg-whitepure rounded-3xl p-10 mb-12 border border-orange-100">
 
-    <h4 class="text-2xl font-extrabold mb-1">
-      <%= job.title %>
-    </h4>
+  <h4 class="text-2xl font-extrabold mb-2"><%= job.title %></h4>
+  <p class="text-sm text-other mb-4">📍 <%= job.location %></p>
 
-    <p class="text-sm text-other mb-6">
-      📍 <%= job.location %>
-    </p>
-
-    <div class="text-sm text-primary font-semibold">
-      👥 आवेदन करने वाले: <%= job.applicants.length %>
-    </div>
-
+  <div class="grid sm:grid-cols-2 gap-6 text-sm mb-6">
+    <p><strong>🕒 काम का समय:</strong> <%= job.jobTime %></p>
+    <p><strong>💰 वेतन:</strong> <%= job.salary || 'निर्धारित नहीं' %></p>
+    <p class="sm:col-span-2"><strong>📝 विवरण:</strong> <%= job.description || 'उपलब्ध नहीं' %></p>
+    <p class="sm:col-span-2"><strong>📞 संपर्क:</strong> <%= job.contact %></p>
   </div>
 
-<% }) %>
+  <p class="font-semibold text-primary mb-4">
+    👥 आवेदन करने वाले: <%= job.applicants.length %>
+  </p>
+
+  <% if (job.applicants.length > 0) { %>
+    <% job.applicants.forEach(applicant => { %>
+
+    <%
+      const isAccepted = job.acceptedApplicants
+        .map(a => a.toString())
+        .includes(applicant._id.toString());
+
+      const isRejected = job.rejectedApplicants
+        .map(a => a.toString())
+        .includes(applicant._id.toString());
+    %>
+
+    <!-- 🔧 ONLY FIXED CLASSES BELOW -->
+    <div class="flex flex-col sm:flex-row
+                sm:justify-between sm:items-center
+                gap-4
+                bg-soft p-5 rounded-2xl mb-3 border">
+
+      <div>
+        <p class="font-bold">👷 <%= applicant.Name %></p>
+        <p class="text-sm">📱 <%= applicant.Mobile %></p>
+
+        <% if (isAccepted) { %>
+          <p class="text-green-600 text-sm font-semibold">✔ स्वीकार किया गया</p>
+        <% } else if (isRejected) { %>
+          <p class="text-red-600 text-sm font-semibold">❌ अस्वीकार किया गया</p>
+        <% } else { %>
+          <p class="text-orange-600 text-sm font-semibold">⏳ निर्णय लंबित</p>
+        <% } %>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        <% if (!isAccepted && !isRejected) { %>
+        <form method="POST" action="/jobs/<%= job._id %>/applicants/<%= applicant._id %>/accept">
+          <button class="bg-green-600 text-white px-4 py-2 rounded-xl">✔ स्वीकार</button>
+        </form>
+
+        <form method="POST" action="/jobs/<%= job._id %>/applicants/<%= applicant._id %>/reject">
+          <button class="bg-orange-500 text-white px-4 py-2 rounded-xl">❌ अस्वीकार</button>
+        </form>
+        <% } %>
+
+        <form method="POST" action="/jobs/<%= job._id %>/applicants/<%= applicant._id %>/remove">
+          <button class="bg-red-600 text-white px-4 py-2 rounded-xl">🗑 हटाएं</button>
+        </form>
+      </div>
+
+    </div>
+
+    <% }) %>
+  <% } else { %>
+    <p class="text-sm text-gray-500">अभी कोई आवेदन नहीं आया है।</p>
+  <% } %>
 
 </div>
 
+<% }) %>
 <% } %>
 
 <% } %>

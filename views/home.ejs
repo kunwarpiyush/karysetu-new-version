@@ -159,32 +159,7 @@
               Details
             </a>
 
-            <!-- APPLY LOGIC -->
-            <% if (isLoggedIn && role === 'worker') { %>
-
-              <% if (job.applicants && job.applicants.some(a => a.toString() === user._id.toString())) { %>
-
-                <!-- ALREADY APPLIED -->
-                <button disabled
-                  class="flex-1 bg-green-100 text-green-700 py-3.5 rounded-2xl
-                         font-semibold cursor-not-allowed">
-                  ✔ Applied
-                </button>
-
-              <% } else { %>
-
-                <!-- APPLY -->
-                <form action="/jobs/<%= job._id %>/apply" method="POST" class="flex-1">
-                  <button type="submit"
-                    class="w-full bg-primary text-white py-3.5 rounded-2xl
-                           font-semibold hover:bg-orange-600 transition">
-                    Apply
-                  </button>
-                </form>
-
-              <% } %>
-
-            <% } %>
+            
             <!-- Guest & Employer → Apply hidden -->
 
           </div>

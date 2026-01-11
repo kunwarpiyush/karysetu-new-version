@@ -31,7 +31,6 @@
 
 <section class="max-w-7xl mx-auto px-4 py-20">
 
-  <!-- Breadcrumb -->
   <div class="text-sm text-gray-500 mb-8">
     होम › काम › <span class="font-semibold"><%= job.title %></span>
   </div>
@@ -83,33 +82,12 @@
 
       <!-- LEFT -->
       <div class="lg:col-span-2 space-y-10">
-
         <div class="bg-soft p-7 rounded-2xl">
           <h2 class="text-xl font-extrabold mb-3">📝 काम का विवरण</h2>
           <p class="text-gray-700 leading-relaxed">
             <%= job.description %>
           </p>
         </div>
-
-        <div class="bg-white p-7 rounded-2xl shadow">
-          <h3 class="font-bold mb-4">🎁 काम के फायदे</h3>
-          <ul class="grid sm:grid-cols-2 gap-3 text-sm">
-            <li>✔ समय पर पैसा</li>
-            <li>✔ नज़दीक का काम</li>
-            <li>✔ भरोसेमंद मालिक</li>
-            <li>✔ सुरक्षित माहौल</li>
-          </ul>
-        </div>
-
-        <div class="bg-white p-7 rounded-2xl shadow">
-          <h3 class="font-bold mb-4">📌 आवेदन प्रक्रिया</h3>
-          <ol class="list-decimal ml-5 text-sm space-y-2">
-            <li>लॉगिन या रजिस्टर करें</li>
-            <li>आवेदन बटन दबाएँ</li>
-            <li>मालिक आपसे संपर्क करेगा</li>
-          </ol>
-        </div>
-
       </div>
 
       <!-- RIGHT -->
@@ -118,40 +96,45 @@
         <div class="bg-white p-7 rounded-2xl shadow">
           <h3 class="font-bold mb-3">👔 काम देने वाला</h3>
           <p class="font-semibold text-lg"><%= job.employer?.Name %></p>
-          <p class="text-xs text-green-600 mt-1">✔ जाँचा-परखा मालिक</p>
-
           <% if(job.contact){ %>
           <p class="mt-3 text-sm">📞 <%= job.contact %></p>
           <% } %>
         </div>
 
+        <!-- APPLY BOX (UPDATED) -->
         <div class="bg-brand text-white p-7 rounded-2xl shadow-glow">
           <h4 class="font-bold mb-2">🚀 क्या आप इच्छुक हैं?</h4>
-          <p class="text-sm opacity-90 mb-5">
-            अभी आवेदन करें और सीधे संपर्क पाएँ।
-          </p>
 
-          <% if(isLoggedIn && role==='worker'){ %>
+          <%
+            const alreadyApplied =
+              isLoggedIn &&
+              role === 'worker' &&
+              job.applicants &&
+              job.applicants.some(a => a._id.toString() === user._id.toString());
+          %>
+
+          <% if(isLoggedIn && role==='worker' && !alreadyApplied){ %>
           <form action="/jobs/<%= job._id %>/apply" method="POST">
             <button class="w-full bg-white text-brand py-3 rounded-xl font-extrabold hover:scale-105 transition">
               आवेदन करें
             </button>
           </form>
+
+          <% } else if(isLoggedIn && role==='worker' && alreadyApplied){ %>
+          <div class="bg-white text-green-700 text-center py-3 rounded-xl font-bold">
+            ✅ आपने इस काम के लिए आवेदन कर दिया है
+          </div>
+
           <% } else if(!isLoggedIn){ %>
           <a href="/login" class="block text-center bg-white text-brand py-3 rounded-xl font-extrabold">
             लॉगिन करके आवेदन करें
           </a>
+
           <% } else { %>
           <button disabled class="w-full bg-gray-300 text-gray-700 py-3 rounded-xl font-bold">
             आवेदन बंद
           </button>
           <% } %>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl shadow text-center text-xs">
-          🔒 सुरक्षित मंच <br>
-          ⚡ तेज़ जवाब <br>
-          💯 भरोसेमंद काम
         </div>
 
       </div>

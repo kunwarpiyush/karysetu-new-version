@@ -3,9 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>
-    <%= pageTitle %>
-  </title>
+  <title><%= pageTitle %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -32,156 +30,158 @@
   <!-- NAVBAR -->
   <%- include('partials/header') %>
 
-    <!-- PAGE HEADER -->
-    <section class="max-w-7xl mx-auto px-4 py-12">
-      <h1 class="text-3xl md:text-4xl font-extrabold">
-        उपलब्ध <span class="text-primary">काम</span>
-      </h1>
-      <p class="text-gray-500 mt-2">
-        अपने पास का सही काम चुनें
-      </p>
-    </section>
+  <!-- PAGE HEADER -->
+  <section class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="text-3xl md:text-4xl font-extrabold">
+      उपलब्ध <span class="text-primary">काम</span>
+    </h1>
+    <p class="text-gray-500 mt-2">
+      अपने पास का सही काम चुनें
+    </p>
+  </section>
 
-    <!-- SEARCH -->
-    <section class="max-w-7xl mx-auto px-4">
-      <div class="bg-white rounded-3xl shadow-soft p-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+  <!-- SEARCH (UI ONLY) -->
+  <section class="max-w-7xl mx-auto px-4">
+    <div class="bg-white rounded-3xl shadow-soft p-6 grid grid-cols-1 md:grid-cols-4 gap-4">
 
-        <input type="text" placeholder="🔍 काम का नाम" class="border rounded-2xl px-4 py-3 focus:outline-primary">
+      <input type="text" placeholder="🔍 काम का नाम"
+        class="border rounded-2xl px-4 py-3 focus:outline-primary">
 
-        <input type="text" placeholder="📍 शहर / इलाका" class="border rounded-2xl px-4 py-3 focus:outline-primary">
+      <input type="text" placeholder="📍 शहर / इलाका"
+        class="border rounded-2xl px-4 py-3 focus:outline-primary">
 
-        <select class="border rounded-2xl px-4 py-3 text-gray-600">
-          <option>💰 सैलरी</option>
-          <option>₹300 – ₹500</option>
-          <option>₹500 – ₹800</option>
-          <option>₹800+</option>
-        </select>
+      <select class="border rounded-2xl px-4 py-3 text-gray-600">
+        <option>💰 सैलरी</option>
+        <option>₹300 – ₹500</option>
+        <option>₹500 – ₹800</option>
+        <option>₹800+</option>
+      </select>
 
-        <button class="bg-primary text-white rounded-2xl font-semibold shadow hover:bg-orange-600">
-          Search
-        </button>
-
-      </div>
-    </section>
-
-    <!-- JOBS GRID -->
-    <section class="max-w-7xl mx-auto px-4 mt-16 pb-24">
-
-      <% if (jobs.length===0) { %>
-        <div class="bg-white rounded-3xl shadow-soft p-10 text-center text-gray-500">
-          🚫 अभी कोई काम उपलब्ध नहीं है
-        </div>
-        <% } %>
-
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            <% jobs.forEach(job=> { %>
-              <div class="bg-white rounded-[2.2rem] shadow-soft hover:shadow-xl transition p-7 flex flex-col">
-
-                <!-- TITLE -->
-                <h3 class="text-xl font-extrabold mb-2">
-                  <%= job.title %>
-                </h3>
-
-                <!-- META -->
-                <p class="text-sm text-gray-500 mb-4">
-                  📍 <%= job.location %>
-                    <% if (job.jobTime) { %> • 🕒 <%= job.jobTime %>
-                        <% } %>
-                </p>
-
-                <!-- TAGS -->
-                <div class="flex flex-wrap gap-3 text-sm mb-5">
-                  <% if (job.salary) { %>
-                    <span class="bg-orange-100 text-primary px-4 py-1 rounded-full font-semibold">
-                      ₹ <%= job.salary %>
-                    </span>
-                    <% } %>
-
-                      <span class="bg-gray-100 text-gray-600 px-4 py-1 rounded-full">
-                        तुरंत जॉइन
-                      </span>
-                </div>
-
-                <!-- DESCRIPTION -->
-                <% if (job.description) { %>
-                  <p class="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">
-                    <%= job.description %>
-                  </p>
-                  <% } %>
-
-                  <!-- ACTIONS -->
-<div class="mt-auto flex gap-4">
-
-  <!-- DETAILS -->
-  <a href="/jobs/<%= job._id %>"
-     class="flex-1 text-center border border-orange-300 text-primary
-            py-3 rounded-2xl font-semibold hover:bg-orange-50 transition">
-    Details
-  </a>
-
-  <!-- APPLY LOGIC -->
-  <% if (isLoggedIn && role === 'worker') { %>
-
-    <% if (job.applicants && job.applicants.some(a => a.toString() === user._id.toString())) { %>
-
-      <!-- ALREADY APPLIED -->
-      <button disabled
-        class="flex-1 bg-green-100 text-green-700 py-3 rounded-2xl font-semibold cursor-not-allowed">
-        ✔ Applied
+      <button class="bg-primary text-white rounded-2xl font-semibold shadow hover:bg-orange-600">
+        Search
       </button>
 
-    <% } else { %>
+    </div>
+  </section>
 
-      <!-- APPLY -->
-      <form action="/jobs/<%= job._id %>/apply" method="POST" class="flex-1">
-        <button type="submit"
-          class="w-full bg-primary text-white py-3 rounded-2xl
-                 font-semibold hover:bg-orange-600 transition">
-          Apply
-        </button>
-      </form>
+  <!-- JOBS GRID -->
+  <section class="max-w-7xl mx-auto px-4 mt-16 pb-24">
 
+    <% if (jobs.length === 0) { %>
+      <div class="bg-white rounded-3xl shadow-soft p-10 text-center text-gray-500">
+        🚫 अभी कोई काम उपलब्ध नहीं है
+      </div>
     <% } %>
 
-  <% } else if (isLoggedIn && role === 'employer') { %>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-    <!-- EMPLOYER -->
-    <button disabled
-      class="flex-1 bg-gray-100 text-gray-500 py-3 rounded-2xl font-semibold">
-      Apply
-    </button>
+      <% jobs.forEach(job => { %>
+      <div class="bg-white rounded-[2.2rem] shadow-soft hover:shadow-xl transition p-7 flex flex-col">
 
-  <% } else { %>
+        <!-- TITLE -->
+        <h3 class="text-xl font-extrabold mb-2">
+          <%= job.title %>
+        </h3>
 
-    <!-- NOT LOGGED IN -->
-    <a href="/login"
-       class="flex-1 text-center bg-primary text-white py-3
-              rounded-2xl font-semibold hover:bg-orange-600 transition">
-      Apply
-    </a>
+        <!-- META -->
+        <p class="text-sm text-gray-500 mb-4">
+          📍 <%= job.location %>
+          <% if (job.jobTime) { %>
+            • 🕒 <%= job.jobTime %>
+          <% } %>
+        </p>
 
-  <% } %>
+        <!-- TAGS -->
+        <div class="flex flex-wrap gap-3 text-sm mb-5">
+          <% if (job.salary) { %>
+            <span class="bg-orange-100 text-primary px-4 py-1 rounded-full font-semibold">
+              ₹ <%= job.salary %>
+            </span>
+          <% } %>
 
-</div>
+          <span class="bg-gray-100 text-gray-600 px-4 py-1 rounded-full">
+            तुरंत जॉइन
+          </span>
+        </div>
 
+        <!-- DESCRIPTION -->
+        <% if (job.description) { %>
+          <p class="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">
+            <%= job.description %>
+          </p>
+        <% } %>
 
-              </div>
-              <% }) %>
+        <!-- ACTIONS -->
+        <div class="mt-auto flex gap-4">
 
-          </div>
+          <!-- DETAILS -->
+          <a href="/jobs/<%= job._id %>"
+            class="flex-1 text-center border border-orange-300 text-primary
+                   py-3 rounded-2xl font-semibold hover:bg-orange-50 transition">
+            Details
+          </a>
 
-    </section>
+          <!-- APPLY LOGIC -->
+          <% if (isLoggedIn && role === 'worker') { %>
 
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-orange-100 py-12">
-      <div class="text-center">
-        <h3 class="text-primary font-extrabold text-lg">ROJGAR APP</h3>
-        <p class="text-gray-500 mt-2">भरोसेमंद • तेज़ • आसान</p>
-        <p class="text-xs text-gray-400 mt-3">© 2026 All Rights Reserved</p>
+            <% if (job.applicants && job.applicants.some(a => a.toString() === user._id.toString())) { %>
+
+              <!-- ALREADY APPLIED (SHORT MESSAGE) -->
+              <button disabled
+                class="flex-1 bg-green-100 text-green-700 py-3 rounded-2xl
+                       font-bold cursor-not-allowed">
+                ✔
+              </button>
+
+            <% } else { %>
+
+              <!-- APPLY -->
+              <form action="/jobs/<%= job._id %>/apply" method="POST" class="flex-1">
+                <button type="submit"
+                  class="w-full bg-primary text-white py-3 rounded-2xl
+                         font-semibold hover:bg-orange-600 transition">
+                  Apply
+                </button>
+              </form>
+
+            <% } %>
+
+          <% } else if (isLoggedIn && role === 'employer') { %>
+
+            <!-- EMPLOYER -->
+            <button disabled
+              class="flex-1 bg-gray-100 text-gray-500 py-3 rounded-2xl font-semibold">
+              Apply
+            </button>
+
+          <% } else { %>
+
+            <!-- NOT LOGGED IN -->
+            <a href="/login"
+              class="flex-1 text-center bg-primary text-white py-3
+                     rounded-2xl font-semibold hover:bg-orange-600 transition">
+              Apply
+            </a>
+
+          <% } %>
+
+        </div>
+
       </div>
-    </footer>
+      <% }) %>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-orange-100 py-12">
+    <div class="text-center">
+      <h3 class="text-primary font-extrabold text-lg">ROJGAR APP</h3>
+      <p class="text-gray-500 mt-2">भरोसेमंद • तेज़ • आसान</p>
+      <p class="text-xs text-gray-400 mt-3">© 2026 All Rights Reserved</p>
+    </div>
+  </footer>
 
 </body>
-
 </html>

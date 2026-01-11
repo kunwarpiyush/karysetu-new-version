@@ -4,9 +4,7 @@ const router = express.Router();
 // Controller
 const controller = require('../controllers/controler');
 
-/* =====================
-   PUBLIC PAGES
-===================== */
+        /*  PUBLIC PAGES */
 
 // Home
 router.get('/', controller.getHome);
@@ -14,9 +12,7 @@ router.get('/', controller.getHome);
 // Profile
 router.get('/profile', controller.getAbout);
 
-/* =====================
-   JOB ROUTES
-===================== */
+           /*  JOB ROUTES */
 
 // All jobs list
 router.get('/jobs', controller.getJobs);
@@ -50,9 +46,7 @@ router.post(
   controller.removeApplicant
 );
 
-/* =====================
-   AUTH ROUTES
-===================== */
+            /* AUTH ROUTES */
 
 // Signup
 router.get('/signup', controller.getSignUp);

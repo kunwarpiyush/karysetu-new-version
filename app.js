@@ -1,45 +1,45 @@
-// ================= LOAD ENV =================
+//  LOAD ENV
 require('dotenv').config();
 
-// ================= CORE MODULES =================
+//  CORE MODULES 
 const path = require('path');
 
-// ================= EXTERNAL MODULES =================
+//  EXTERNAL MODULES 
 const express = require('express');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 
-// ================= LOCAL MODULES =================
+//  LOCAL MODULES 
 const router = require('./routes/router');
 const rootDir = require('./utils/pathUtil');
 const ErrorController = require('./controllers/error');
 
-// ================= APP INIT =================
+//  APP INIT 
 const app = express();
 
-// ================= ENV VARIABLES =================
+//  ENV VARIABLES 
 const PORT = process.env.PORT || 3002;
 const MONGO_URI = process.env.MONGO_URI;
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
-// ================= SAFETY CHECK =================
+//  SAFETY CHECK 
 if (!MONGO_URI) {
-  console.error('❌ MONGO_URI missing in .env file');
+  console.error(' MONGO_URI missing in .env file');
   process.exit(1);
 }
 
-// ================= VIEW ENGINE =================
+//  VIEW ENGINE 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-// ================= SESSION STORE =================
+//  SESSION STORE 
 const store = new MongoDBStore({
   uri: MONGO_URI,
   collection: 'sessions',
 });
 
-// ================= MIDDLEWARES =================
+//  MIDDLEWARES 
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
@@ -62,7 +62,7 @@ app.use(
   })
 );
 
-// ================= GLOBAL LOCALS =================
+//  GLOBAL LOCALS 
 app.use((req, res, next) => {
   res.locals.isLoggedIn = req.session?.isLoggedIn || false;
   res.locals.user = req.session?.user || null;
@@ -70,13 +70,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// ================= ROUTES =================
+//  ROUTES 
 app.use(router);
 
-// ================= 404 HANDLER =================
+//  404 HANDLER 
 app.use(ErrorController.pageNotFound);
 
-// ================= SERVER + DB =================
+//  SERVER + DB 
 mongoose
   .connect(MONGO_URI)
   .then(() => {
